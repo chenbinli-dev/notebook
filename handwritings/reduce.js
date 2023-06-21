@@ -4,7 +4,7 @@ Array.prototype._reduce_ = function (callback, initialValue) {
         throw new TypeError('this is null or undefined')
     }
     if (typeof callback !== 'function') {
-        throw new TypeError('callback must be a function')
+        throw new TypeError(`${callback} is not a function`)
     }
     const O = Object(this)
     const len = this.length >>> 0
