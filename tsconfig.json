@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": true,
+    "esModuleInterop": true,
+    "target": "ESNext"
+  },
+  "include": ["handwritings"],
+  "exclude": ["notes", "questions"]
+}
