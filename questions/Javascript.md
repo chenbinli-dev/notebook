@@ -28,3 +28,13 @@ console.log(min < max)
 
 > 答案: false 。
 > 解析: Math.min()当参数个数为 0 时返回 Infinity,Math.max()当参数个数为 0 时返回-Infinity。
+
+```javascript
+var a = 1(function a() {
+  a = 2
+  console.log(a)
+})()
+```
+
+> 答案： a 函数本身。
+> 解析：首先声明了一个全局变量 a 并赋值 1，然后定义了一个立即执行函数（IIFE）a，立即执行函数 a 内部给变量，a 赋值为 2，然后打印 a。由于立即执行函数形成了独立的作用域，该作用域中同时存在函数 a 和变量 a，函数定义的优先级高于变量定义，所以打印的结果就是函数本身。
