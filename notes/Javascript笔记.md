@@ -163,3 +163,97 @@ setImmediate(() => {
 🙌事件捕获就是事件先被不具体的节点接受，后逐级往下传递到触发节点。
 
 💦事件冒泡就是事件先被触发节点接收，后逐级往上传递到根节点。
+
+# 3.随机字符串
+
+在实际项目中我们可能会使用到随机字符串用于key或者唯一ID，那么如何实现呢？
+
+第一种：使用`Math.random()`，该方法是伪随机，有两种不同的实现。
+
+```javascript
+// 1.自定义字符
+function generateRandomString(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+}
+const randomString = generateRandomString(10); // 生成长度为 10 的随机字符串
+console.log(randomString);
+
+// 2.使用toString(),该方法生成的字符串最大长度为11位
+function generateRandomString(length) {
+  return length > 11 ? Math.random().toString(36).substring(2):Math.random().toString(36).substring(2,length);
+}
+const randomString = generateRandomString(10); // 生成长度为 10 的随机字符串
+console.log(randomString);
+```
+
+第二种：使用`window.crypto`，请注意该接口的兼容性。
+
+> MDN:  **`Crypto`** 接口提供了当前上下文中可用的基本的加密功能。它允许访问一个密码学安全的随机数生成器和密码学原语（cryptographic primitive）。
+
+```javascript
+// 1. window.crypto.getRandomValues
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+
+  let result = '';
+  const randomValues = new Uint32Array(length);
+  crypto.getRandomValues(randomValues);
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(randomValues[i] % charactersLength);
+  }
+
+  return result;
+}
+
+const randomString = generateRandomString(10); // 生成长度为 10 的随机字符串
+console.log(randomString);
+// 2. window.crypto.randomUUID 该方法通过密码学安全的随机数生成器生成随机的长度为36位字符的第四版UUID字符串
+// exmaple: "36b8f84d-df4e-4d49-b662-bcde71a8764f"
+function generateRandomString(length) {
+  if(length > 36) return;
+  return window.crypto.randomUUID(),split('-').substring(0,length);
+}
+
+const randomString = generateRandomString(10); // 生成长度为 10 的随机字符串
+console.log(randomString);
+```
+
+第三种：使用第三方库，例如 `uuid`,`crypto-random-string`,`randomstring`等。
+
+```javascript
+// uuid
+import { v4 as uuidv4 } from 'uuid';
+console.log(uuidv4()) //example: 8212a78a-7f92-48bc-8a80-84188fba97f9 
+
+// crypto-random-string
+import cryptoRandomString from 'crypto-random-string';
+cryptoRandomString({length: 10});
+//=> '2cf05d94db'
+cryptoRandomString({length: 10, type: 'base64'});
+//=> 'YMiMbaQl6I'
+cryptoRandomString({length: 10, type: 'url-safe'});
+//=> 'YN-tqc8pOw'
+cryptoRandomString({length: 10, type: 'numeric'});
+//=> '8314659141'
+cryptoRandomString({length: 6, type: 'distinguishable'});
+//=> 'CDEHKM'
+cryptoRandomString({length: 10, type: 'ascii-printable'});
+//=> '`#Rt8$IK>B'
+cryptoRandomString({length: 10, type: 'alphanumeric'});
+//=> 'DMuKL8YtE7'
+cryptoRandomString({length: 10, characters: 'abc'});
+//=> 'abaaccabac'
+```
+
+
+
