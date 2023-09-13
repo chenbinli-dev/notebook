@@ -27,7 +27,7 @@ Function.prototype._call_ = function (context, ...args) {
     return res
 }
 // Implement of function bond method.
-Function.prototype._bond_ = function (context, ...arges) {
+Function.prototype._bind_ = function (context, ...arges) {
     if (typeof this !== 'function') {
         throw new Error('Type Error')
     }
