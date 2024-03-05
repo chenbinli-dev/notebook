@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "ESNext",
     "declaration": true,
     "esModuleInterop": true,
     "target": "ESNext"
   },
-  "include": ["handwritings"],
-  "exclude": ["notes", "questions"]
+  "include": ["handwritings/ts"],
+  "exclude": ["drawios","notes", "questions"]
 }
