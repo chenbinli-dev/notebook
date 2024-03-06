@@ -4,6 +4,7 @@ function OperatorNew (constructor, ...args) {
     const obj = {}
     // 2. set prototype for the new object
     Object.setPrototypeOf(obj, constructor.prototype)
+    // obj.__proto__ = constructor.prototype
     // 3. points the this of the constructor to the new object
     const result = constructor.apply(obj, args)
     // 4. return by result
